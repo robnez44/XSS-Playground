@@ -1,0 +1,6 @@
+{
+  "watch": ["src"],
+  "ext": "ts,mts,js,mjs,json",
+  "ignore": ["dist","node_modules"],
+  "exec": "node --env-file=.env --enable-source-maps --loader ts-node/esm ./src/index.ts"
+}
