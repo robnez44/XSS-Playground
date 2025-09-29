@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ponle nombre a mi gato </title>
+    <link rel="stylesheet" href="./src/style.css" />
+  </head>
+  <body>
+    <header>
+      <div class="hero">
+        <img id="cat-photo" alt="Foto de mi gato" src="./23e918ba-2ab9-4938-ad2a-831957850316.jpeg" />
+        <div>
+          <h1>Hola ayudame a ponerle nombre a mi gatito</h1>
+          <p>
+            Aun no se como nombrar a mi gato cerote que me regalaron. Ayudame a nombrarlo dandome sugerencias de nombre y se mostraran abajo
+          </p>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section>
+        <h2>Deja tu propuesta</h2>
+        <form id="form">
+          <input id="author" name="author" placeholder="your name" required />
+          <input id="catName" name="catName" placeholder="suggested name" required />
+          <textarea id="justification" name="justification" placeholder="why this name?" required></textarea>
+          <button id="submitBtn">Enviar</button>
+        </form>
+      </section>
+
+      <section class="list">
+        <h2>Propuestas recientes</h2>
+        <div id="comments"></div>
+      </section>
+    </main>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
