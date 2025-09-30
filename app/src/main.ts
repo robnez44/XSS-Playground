@@ -1,4 +1,5 @@
 import axios, { type AxiosInstance, type AxiosError } from 'axios';
+import { colorForAuthor } from './avatarColor';
 
 type CommentDTO = {
   id: string;
@@ -27,22 +28,32 @@ const createComment: (p: CreatePayload) => Promise<void> = async (p) => {
 };
 
 const renderComments: (el: HTMLElement, rows: CommentDTO[]) => void = (el, rows) => {
-  el.innerHTML = rows
-    .map(
-      (c) => `
-      <div class="item">
-        <div><strong>${c.catName}</strong> <span class="meta">por ${c.author}</span></div>
-        <div>${c.justification}</div>
-        <div class="meta">${new Date(c.created_at).toLocaleString()}</div>
-      </div>`
-    )
-    .join("");
+  el.innerHTML = rows.map(c => {
+    const initial:string = (c.author ?? '?').trim().charAt(0).toUpperCase() || '?';
+    const iso:string = c.created_at;
+    const color:string = colorForAuthor(c.author); 
+
+    return `
+      <article class="comment">
+        <div class="avatar" style="background:${color}">${initial}</div>
+        <div class="content">
+          <div class="top">
+            <h3 class="name">${c.catName}</h3>
+            <span class="author">by <strong>${c.author}</strong></span>
+            <time class="time" datetime="${iso}">${new Date(iso).toLocaleString()}</time>
+          </div>
+          <p class="just">${c.justification}</p>
+        </div>
+      </article>
+    `;
+  }).join('');
 };
+
 
 // error 
 const handleAxiosError: (err: unknown, msg?: string) => void = (err, msg = "Error de red") => {
   const e = err as AxiosError<{ error?: string; mensaje?: string }>;
-  let out = msg;
+  let out:string = msg;
   if (e.response) out += ` (${e.response.status}) ${e.response.data?.error ?? e.response.data?.mensaje ?? ""}`;
   else if (e.request) out += " (sin respuesta del servidor)";
   else out += `: ${(e as Error).message}`;
@@ -56,7 +67,7 @@ const submitBtn = document.getElementById("submitBtn") as HTMLButtonElement;
 
 const refresh: () => Promise<void> = async () => {
   try {
-    const rows = await getComments();
+    const rows:CommentDTO[] = await getComments();
     renderComments(commentsEl, rows);
   } catch (e) {
     handleAxiosError(e, "No pude cargar comentarios");
@@ -68,9 +79,9 @@ const onSubmit: (ev: SubmitEvent) => Promise<void> = async (ev) => {
   ev.preventDefault();
   submitBtn.disabled = true;
 
-  const author = (document.getElementById("author") as HTMLInputElement).value.trim();
-  const catName = (document.getElementById("catName") as HTMLInputElement).value.trim();
-  const justification = (document.getElementById("justification") as HTMLTextAreaElement).value.trim();
+  const author:string = (document.getElementById("author") as HTMLInputElement).value.trim();
+  const catName:string = (document.getElementById("catName") as HTMLInputElement).value.trim();
+  const justification:string = (document.getElementById("justification") as HTMLTextAreaElement).value.trim();
 
   if (!author || !catName || !justification) { submitBtn.disabled = false; return; }
 

@@ -96,37 +96,51 @@ button:disabled {
   cursor: not-allowed;
 }
 
-/* Comments list */
-.list {
-  background: #fff;
-  padding: 16px;
-  border-radius: 12px;
-  border: 1px solid var(--border);
-}
+/* ↓ lista */
+#comments { display: grid; gap: 16px; }
 
-.item {
-  padding: 12px 0;
+/* ↓ tarjeta con grid de 2 columnas: avatar + contenido */
+.comment{
+  display: grid;
+  grid-template-columns: 36px 1fr;          /* avatar más pequeño */
+  grid-template-areas:
+    "ava head"                              /* cabecera al lado del avatar */
+    ".   body";                             /* justificación debajo */
+  column-gap: 12px;
+  row-gap: 6px;
+  padding: 14px 6px;
   border-top: 1px solid #f0f0f0;
 }
+.comment:first-child{ border-top: 0; }
 
-.item:first-child {
-  border-top: 0;
+/* ↓ avatar reducido */
+.avatar{
+  margin-top: 9px;
+  grid-area: ava;
+  width: 36px; height: 36px;                /* antes 44px */
+  border-radius: 9999px;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; color: #fff; background: #111;
+  font-size: .95rem;
 }
 
-.meta {
-  color: var(--muted);
-  font-size: .9rem;
+/* ↓ “aplanamos” el contenedor para colocar sus hijos en el grid */
+.content{ display: contents; }              /* sin cambiar el HTML */
+
+/* ↓ cabecera (nombre propuesto + autor + fecha) centrada al círculo */
+.top{
+  grid-area: head;
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
 }
+.name{ font-size: 1.05rem; font-weight: 800; }
+.author{ color: var(--muted); }
+.time{ margin-left: auto; color: var(--muted); font-size: .85rem; }
 
-/* Small screens */
-@media (max-width: 720px) {
-  .hero {
-    grid-template-columns: 1fr;
-    text-align: center;
-  }
-
-  .hero img {
-    max-width: 320px;
-    justify-self: center;
-  }
+/* ↓ justificación debajo, alineada con la cabecera */
+.just{
+  grid-area: body;
+  color: var(--text);
+  line-height: 1.4;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
 }
