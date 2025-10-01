@@ -31,7 +31,7 @@ const renderComments: (el: HTMLElement, rows: CommentDTO[]) => void = (el, rows)
   el.innerHTML = rows.map(c => {
     const initial:string = (c.author ?? '?').trim().charAt(0).toUpperCase() || '?';
     const iso:string = c.created_at;
-    const color:string = colorForAuthor(c.author); 
+    const color:string = colorForAuthor(c.author);
 
     return `
       <article class="comment">
